@@ -21,7 +21,7 @@ class Combinations
     end
 
     def names
-      [ingredient1, ingredient2, ingredient3].compact.map(&:name)
+      @_names ||= [ingredient1, ingredient2, ingredient3].compact.map(&:name).sort
     end
 
     def count
