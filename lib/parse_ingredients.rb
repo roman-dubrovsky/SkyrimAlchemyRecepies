@@ -6,6 +6,10 @@ class ParseIngredients
 
   Ingredient = Struct.new(:id, :name, :effects)
 
+  DUBLICATIONS = {
+    "Повышение искусства лучника" => "Повышение навыка: стрельба",
+  }
+
   def self.call
     new.call
   end
@@ -41,11 +45,17 @@ class ParseIngredients
 
       id = blocks.shift&.children&.last&.to_s
       effects = blocks.map do |block|
-        block&.children&.first&.children&.to_s
+        fix_name(block&.children&.first&.children&.to_s)
       end
 
       result << Ingredient.new(id, name, effects)
     end
+  end
+
+  def fix_name(name)
+    name.gsub!("ё", "е")
+    name = DUBLICATIONS[name] unless DUBLICATIONS[name].nil?
+    name
   end
 
   def tables

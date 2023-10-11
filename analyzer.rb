@@ -15,7 +15,7 @@ def perform
   result = UseItems.new(list: list, ingredients: ingredients).call
 
   result.each do |item|
-    puts "#{item.names} - #{item.effects} - #{item.count}"
+    puts "#{item.names} - #{item.effects} - #{item.count} - cost: #{item.effects_count}"
   end
 end
 

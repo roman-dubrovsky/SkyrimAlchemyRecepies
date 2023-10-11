@@ -1,3 +1,7 @@
+require_relative "shared"
+
+require 'pry-byebug'
+
 class Combinations
   attr_reader :list, :ingredients
 
@@ -13,7 +17,7 @@ class Combinations
     end
 
     def effects_count
-      effects.count
+      @_effects_count ||= effects.map { |effect| Shared::EFFECTS_COST[effect] }.sum
     end
 
     def names
@@ -45,10 +49,12 @@ class Combinations
 
         matches = match_items(item1, item2)
 
-        result << Result.new(matches, filterred_items[index1], filterred_items[index2]) if matches.any?
+        next if matches.empty?
+
+        result << Result.new(matches, filterred_items[index1], filterred_items[index2])
 
         ((index2 + 1)..(count - 1)).to_a.each do |index3|
-          item3 = filterred_items[index2].first
+          item3 = filterred_items[index3].first
           matches1_3 = match_items(item1, item3)
           matches2_3 = match_items(item2, item3)
           next if matches1_3.empty? && matches2_3.empty?

@@ -14,3 +14,9 @@ ruby prepare.rb
 ```
 
 ### Step 2: fill yml file and sets count of ingredients which you have
+
+### Step 3: run analyzer and gets list of better potions
+
+```shell
+ruby analyzer.rb
+```
