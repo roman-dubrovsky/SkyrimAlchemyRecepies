@@ -2,20 +2,19 @@
 
 require 'yaml'
 
-require_relative "lib/parse_ingredients"
-require_relative "lib/shared"
-
-require_relative "lib/use_items"
+require_relative "lib/actions/parse_ingredients"
+require_relative "lib/actions/set_ingredients_count"
+require_relative "lib/actions/prepare_best_list_for_crafting"
 
 def perform
-  list = ParseIngredients.call
+  list = Actions::ParseIngredients.call
 
-  ingredients = YAML.load_file(Shared::FILE_NAME)
+  Actions::SetIngredientsCount.new(list).call
 
-  result = UseItems.new(list: list, ingredients: ingredients).call
+  result = Actions::PrepareBestListForCrafting.new(list).call
 
-  result.each do |item|
-    puts "#{item.names} - #{item.effects} - #{item.count} - cost: #{item.effects_count}"
+  result.each do |potion|
+    puts potion.print
   end
 end
 

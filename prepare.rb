@@ -1,12 +1,12 @@
 #! /usr/bin/env ruby
 
-require_relative "lib/parse_ingredients"
-require_relative "lib/make_yml_with_list"
+require_relative "lib/actions/parse_ingredients"
+require_relative "lib/actions/make_yml_with_list"
 
 def perform
-  list = ParseIngredients.call
+  list = Actions::ParseIngredients.call
 
-  MarkYmlWithList.call(list)
+  Actions::MarkYmlWithList.call(list)
 end
 
 perform
