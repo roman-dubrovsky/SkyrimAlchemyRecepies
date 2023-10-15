@@ -19,6 +19,7 @@ module Actions
         best_variant.pin_potion
         result << best_variant
 
+        potions.each(&:recalculate_count)
         potions = potions.select { |potion| potion.count.positive? }
       end
 

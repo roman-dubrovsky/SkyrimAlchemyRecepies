@@ -13,7 +13,6 @@ class Potion
     @resolved_count = nil
 
     recalculate_count
-    index_potion
   end
 
   def effects_price
@@ -36,12 +35,6 @@ class Potion
   end
 
   private
-
-  def index_potion
-    ingredient1.add_potion(self)
-    ingredient2.add_potion(self)
-    ingredient3&.add_potion(self)
-  end
 
   def ingredients
     [ingredient1, ingredient2, ingredient3].compact
