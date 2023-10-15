@@ -1,0 +1,13 @@
+inherit_gem:
+  datarockets-style:
+    - config/ruby.yml
+
+Metrics/AbcSize:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Security/Open:
+  Exclude:
+    - 'lib/actions/parse_ingredients.rb'

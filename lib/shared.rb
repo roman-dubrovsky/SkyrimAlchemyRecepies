@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 module Shared
-  FILE_NAME = 'output.yml'
+  FILE_NAME = "output.yml"
 
   EFFECTS_COST = {
     "Бешенство" => 107,
@@ -61,6 +63,6 @@ module Shared
     "Уязвимость к огню" => 48,
     "Уязвимость к холоду" => 40,
     "Уязвимость к электричеству" => 56,
-    "Уязвимость к яду" => 51
-  }
+    "Уязвимость к яду" => 51,
+  }.freeze
 end

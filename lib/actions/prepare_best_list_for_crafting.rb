@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative "find_potions"
 
 module Actions
@@ -17,7 +19,7 @@ module Actions
         best_variant.pin_potion
         result << best_variant
 
-        potions = potions.select { |potion| potion.count > 0 }
+        potions = potions.select { |potion| potion.count.positive? }
       end
 
       result

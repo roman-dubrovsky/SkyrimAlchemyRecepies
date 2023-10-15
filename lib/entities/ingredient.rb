@@ -1,15 +1,14 @@
+# frozen_string_literal: true
+
 class Ingredient
-  attr_reader :name, :effects, :count, :potions
+  attr_accessor :count
+  attr_reader :name, :effects, :potions
 
   def initialize(name, effects)
     @name = name
     @effects = effects
     @count = 0
     @potions = []
-  end
-
-  def count=(count)
-    @count = count
   end
 
   def use(used_count)

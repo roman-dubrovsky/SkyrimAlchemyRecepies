@@ -1,5 +1,7 @@
-require 'open-uri'
-require 'nokogiri'
+# frozen_string_literal: true
+
+require "open-uri"
+require "nokogiri"
 
 require_relative "../entities/ingredient"
 
@@ -9,7 +11,7 @@ module Actions
 
     DUBLICATIONS = {
       "Повышение искусства лучника" => "Повышение навыка: стрельба",
-    }
+    }.freeze
 
     def self.call
       new.call
@@ -34,22 +36,27 @@ module Actions
       table.css("tr").each do |line|
         blocks = line.css("td")
         next if blocks.empty?
-        blocks.shift
-
-        name_block = blocks.shift
-
-        name = if !name_block.css("a").first.nil?
-          name_block.css("a").first.children.to_s
-        else
-          name_block.children.first.children.to_s
-        end
 
         blocks.shift
-        effects = blocks.map do |block|
-          fix_name(block&.children&.first&.children&.to_s)
-        end
+        name = name_for(blocks.shift)
+        blocks.shift
+        effects = find_effects(blocks)
 
         result << Ingredient.new(name, effects)
+      end
+    end
+
+    def find_effects(blocks)
+      blocks.map do |block|
+        fix_name(block&.children&.first&.children&.to_s)
+      end
+    end
+
+    def name_for(name_block)
+      if name_block.css("a").first.nil?
+        name_block.children.first.children.to_s
+      else
+        name_block.css("a").first.children.to_s
       end
     end
 

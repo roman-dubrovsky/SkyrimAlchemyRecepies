@@ -1,4 +1,6 @@
-require 'yaml'
+# frozen_string_literal: true
+
+require "yaml"
 
 require_relative "../shared"
 
@@ -15,9 +17,9 @@ module Actions
     end
 
     def call
-      sorted_hash = list.map { |item| item.name }.sort.map { |name| [name, 0] }.to_h
+      sorted_hash = list.map(&:name).sort.to_h { |name| [name, 0] }
       yaml_data = sorted_hash.to_yaml
-      File.open(Shared::FILE_NAME, 'w') { |file| file.write(yaml_data) }
+      File.write(Shared::FILE_NAME, yaml_data)
     end
   end
 end

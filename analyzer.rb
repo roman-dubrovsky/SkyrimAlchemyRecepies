@@ -1,6 +1,7 @@
 #! /usr/bin/env ruby
+# frozen_string_literal: true
 
-require 'yaml'
+require "yaml"
 
 require_relative "lib/actions/parse_ingredients"
 require_relative "lib/actions/set_ingredients_count"
