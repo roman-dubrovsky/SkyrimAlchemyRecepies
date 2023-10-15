@@ -4,23 +4,20 @@ require_relative "find_potions"
 
 module Actions
   class PrepareBestListForCrafting
-    attr_reader :list
-
-    def initialize(list)
-      @list = list
+    def initialize(potions)
+      @potions = potions
     end
 
     def call
       result = []
-      potions = Actions::FindPotions.new(list: list).call.sort_by(&:effects_price).reverse
+      potions = @potions
 
       while potions.any?
         best_variant = potions.shift
         best_variant.pin_potion
         result << best_variant
 
-        potions.each(&:recalculate_count)
-        potions = potions.select { |potion| potion.count.positive? }
+        potions.recalculate!
       end
 
       result

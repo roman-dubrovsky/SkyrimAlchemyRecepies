@@ -17,9 +17,21 @@ module Actions
     end
 
     def call
-      sorted_hash = list.map(&:name).sort.to_h { |name| [name, 0] }
-      yaml_data = sorted_hash.to_yaml
+      yaml_data = {
+        "potions" => list_of_potions,
+        "ingredients" => list_of_ingredients,
+      }.to_yaml
       File.write(Shared::FILE_NAME, yaml_data)
+    end
+
+    private
+
+    def list_of_ingredients
+      list.map(&:name).sort.to_h { |name| [name, 0] }
+    end
+
+    def list_of_potions
+      Shared::MAKING_EFFECTS.to_h { |name| [name, 0] }
     end
   end
 end

@@ -3,7 +3,7 @@
 require_relative "../shared"
 
 class Potion
-  attr_reader :effects, :ingredient1, :ingredient2, :ingredient3, :count, :resolved_count
+  attr_reader :effects, :ingredient1, :ingredient2, :ingredient3, :count, :resolved_count, :reverved_count
 
   def initialize(effects, ingredient1, ingredient2, ingredient3 = nil)
     @effects = effects
@@ -11,6 +11,7 @@ class Potion
     @ingredient2 = ingredient2
     @ingredient3 = ingredient3
     @resolved_count = nil
+    @reverved_count = nil
 
     recalculate_count
   end
@@ -23,18 +24,26 @@ class Potion
     @count = ingredients.map(&:count).min
   end
 
-  def pin_potion
-    @resolved_count = count
-    ingredient1.use(count)
-    ingredient2.use(count)
-    ingredient3&.use(count)
+  def reserve!(count)
+    @reverved_count = count
+    use(count)
   end
 
-  def print
-    "#{ingredients.map(&:name).sort} - #{effects} - #{resolved_count} - price: #{effects_price}"
+  def pin_potion
+    @resolved_count = count
+    use(count)
+  end
+
+  def print(count_type = nil)
+    displayed_count = count_type == :reserved ? reverved_count : resolved_count
+    "#{ingredients.map(&:name).sort} - #{effects} - #{displayed_count} - price: #{effects_price}"
   end
 
   private
+
+  def use(count)
+    ingredients.each { |ingredient| ingredient.use(count) }
+  end
 
   def ingredients
     [ingredient1, ingredient2, ingredient3].compact

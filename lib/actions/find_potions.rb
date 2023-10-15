@@ -2,6 +2,7 @@
 
 require_relative "../shared"
 require_relative "../entities/potion"
+require_relative "../potions_repository"
 
 module Actions
   class FindPotions
@@ -26,7 +27,7 @@ module Actions
         end
       end
 
-      result
+      PotionsRepository.new(result)
     end
 
     private
