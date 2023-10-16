@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "pry-byebug"
+
 require_relative "../config"
 require_relative "../actions/ingredients_list"
 require_relative "../actions/read_yaml_config"
@@ -9,6 +11,8 @@ require_relative "../actions/prepare_best_list_for_crafting"
 
 module Commands
   class AnalyzeList
+    DELEMITER = "==============================="
+
     attr_reader :list, :reserve_potions_count, :config
 
     def initialize
@@ -21,9 +25,11 @@ module Commands
       Actions::ReadYamlConfig.new(list, config).call
 
       potions_for_reserving.each(&:print)
-      puts "==============================="
-      potions_for_selling.each do |potion|
-        puts potion.print
+      potions_for_selling.each do |group|
+        puts DELEMITER
+        group.each do |potion|
+          puts potion.print
+        end
       end
     end
 
@@ -34,7 +40,7 @@ module Commands
     end
 
     def potions_for_selling
-      @_potions_for_selling ||= Actions::PrepareBestListForCrafting.new(potions).call
+      @_potions_for_selling ||= Actions::PrepareBestListForCrafting.new(potions, config).call
     end
 
     def potions

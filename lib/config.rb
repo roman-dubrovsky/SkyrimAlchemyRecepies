@@ -13,8 +13,17 @@ class Config
     config_yaml["potions"] || {}
   end
 
-  def write(potions:, ingredients:)
+  def settings
+    config_yaml["settings"] || {}
+  end
+
+  def optimize_crafting?
+    settings["optimize_crafting"]
+  end
+
+  def write(potions:, ingredients:, settings:)
     yaml_data = {
+      "settings" => settings,
       "potions" => potions,
       "ingredients" => ingredients,
     }.to_yaml

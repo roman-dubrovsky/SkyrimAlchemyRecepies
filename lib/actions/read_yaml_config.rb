@@ -11,7 +11,7 @@ module Actions
 
     def call
       list.each do |ingredient|
-        ingredient.count = rand(5..20) # ingredients_count[ingredient.name] || 0
+        ingredient.count = ingredients_count[ingredient.name] || 0
       end
     end
 

@@ -3,7 +3,8 @@
 require_relative "../shared"
 
 class Potion
-  attr_reader :effects, :ingredient1, :ingredient2, :ingredient3, :count, :resolved_count, :reverved_count
+  attr_reader :effects, :ingredient1, :ingredient2, :ingredient3, :count, :resolved_count, :reverved_count,
+    :effects_price_with_count
 
   def initialize(effects, ingredient1, ingredient2, ingredient3 = nil)
     @effects = effects
@@ -22,6 +23,7 @@ class Potion
 
   def recalculate_count
     @count = ingredients.map(&:count).min
+    @effects_price_with_count = effects_price + (count * 10)
   end
 
   def reserve!(count)

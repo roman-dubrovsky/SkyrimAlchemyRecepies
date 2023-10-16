@@ -3,6 +3,7 @@
 require "yaml"
 
 require_relative "../config"
+require_relative "../shared"
 
 module Actions
   class MarkYmlWithList
@@ -20,10 +21,19 @@ module Actions
       config_yaml.write(
         potions: list_of_potions,
         ingredients: list_of_ingredients,
+        settings: settings,
       )
     end
 
     private
+
+    def settings
+      settings = config_yaml.settings
+
+      settings.merge({
+        "optimize_crafting" => false,
+      })
+    end
 
     def list_of_ingredients
       list.map(&:name).sort.to_h { |name| [name, 0] }

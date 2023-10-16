@@ -1,24 +1,31 @@
 # frozen_string_literal: true
 
+require_relative "prepare_best_list_for_crafting/standart_order"
+require_relative "prepare_best_list_for_crafting/count_and_price_order"
+
 module Actions
   class PrepareBestListForCrafting
-    def initialize(potions)
+    attr_reader :potions, :config
+
+    FIRST_POINT = 300
+    SECOND_POINT = 150
+
+    def initialize(potions, config)
       @potions = potions
+      @config = config
     end
 
     def call
-      result = []
-      potions = @potions
-
-      while potions.any?
-        best_variant = potions.shift
-        best_variant.pin_potion
-        result << best_variant
-
-        potions.recalculate!
+      if config.optimize_crafting?
+        [
+          StandartOrder.new(potions).call(FIRST_POINT),
+          CountAndPriceOrder.new(potions).call(SECOND_POINT),
+        ]
+      else
+        [
+          StandartOrder.new(potions).call,
+        ]
       end
-
-      result
     end
   end
 end
