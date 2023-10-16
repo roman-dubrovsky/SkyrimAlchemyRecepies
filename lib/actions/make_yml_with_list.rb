@@ -31,7 +31,15 @@ module Actions
     end
 
     def list_of_potions
-      Shared::MAKING_EFFECTS.to_h { |name| [name, 0] }
+      potions = config_yaml["potions"] || {}
+
+      Shared::MAKING_EFFECTS.to_h do |name|
+        [name, potions[name] || 0]
+      end
+    end
+
+    def config_yaml
+      @_config_yaml ||= YAML.load_file(Shared::FILE_NAME)
     end
   end
 end

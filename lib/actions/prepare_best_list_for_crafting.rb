@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative "find_potions"
-
 module Actions
   class PrepareBestListForCrafting
     def initialize(potions)
