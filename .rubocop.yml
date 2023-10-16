@@ -10,4 +10,4 @@ Style/Documentation:
 
 Security/Open:
   Exclude:
-    - 'lib/actions/parse_ingredients.rb'
+    - 'lib/actions/ingredients_list/parse_ingredients.rb'

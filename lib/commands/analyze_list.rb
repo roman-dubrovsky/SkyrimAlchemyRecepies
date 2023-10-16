@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "../actions/parse_ingredients"
+require_relative "../actions/ingredients_list"
 require_relative "../actions/read_yaml_config"
 require_relative "../actions/find_potions"
 require_relative "../actions/reserve_ingredients"
@@ -11,7 +11,7 @@ module Commands
     attr_reader :list, :reserve_potions_count
 
     def initialize
-      @list = Actions::ParseIngredients.call
+      @list = Actions::IngredientsList.call
       @reserve_potions_count = Actions::ReadYamlConfig.new(list).call
     end
 
