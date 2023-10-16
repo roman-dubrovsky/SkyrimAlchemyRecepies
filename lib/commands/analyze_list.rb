@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative "../config"
 require_relative "../actions/ingredients_list"
 require_relative "../actions/read_yaml_config"
 require_relative "../actions/find_potions"
@@ -8,14 +9,17 @@ require_relative "../actions/prepare_best_list_for_crafting"
 
 module Commands
   class AnalyzeList
-    attr_reader :list, :reserve_potions_count
+    attr_reader :list, :reserve_potions_count, :config
 
     def initialize
       @list = Actions::IngredientsList.call
-      @reserve_potions_count = Actions::ReadYamlConfig.new(list).call
+      @config = Config.new
+      @reserve_potions_count = config.potions
     end
 
     def call
+      Actions::ReadYamlConfig.new(list, config).call
+
       potions_for_reserving.each(&:print)
       puts "==============================="
       potions_for_selling.each do |potion|

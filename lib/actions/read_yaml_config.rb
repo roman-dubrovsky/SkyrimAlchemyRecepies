@@ -1,36 +1,24 @@
 # frozen_string_literal: true
 
-require "yaml"
-require_relative "../shared"
-
 module Actions
   class ReadYamlConfig
-    attr_reader :list
+    attr_reader :list, :config
 
-    def initialize(list)
+    def initialize(list, config)
       @list = list
+      @config = config
     end
 
     def call
       list.each do |ingredient|
-        ingredient.count = ingredients_count[ingredient.name] || 0
+        ingredient.count = rand(5..20) # ingredients_count[ingredient.name] || 0
       end
-
-      potions
     end
 
     private
 
-    def potions
-      config_yaml["potions"]
-    end
-
     def ingredients_count
-      @_ingredients_count ||= config_yaml["ingredients"]
-    end
-
-    def config_yaml
-      @_config_yaml ||= YAML.load_file(Shared::FILE_NAME)
+      config.ingredients
     end
   end
 end

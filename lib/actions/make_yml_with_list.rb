@@ -2,7 +2,7 @@
 
 require "yaml"
 
-require_relative "../shared"
+require_relative "../config"
 
 module Actions
   class MarkYmlWithList
@@ -17,11 +17,10 @@ module Actions
     end
 
     def call
-      yaml_data = {
-        "potions" => list_of_potions,
-        "ingredients" => list_of_ingredients,
-      }.to_yaml
-      File.write(Shared::FILE_NAME, yaml_data)
+      config_yaml.write(
+        potions: list_of_potions,
+        ingredients: list_of_ingredients,
+      )
     end
 
     private
@@ -31,7 +30,7 @@ module Actions
     end
 
     def list_of_potions
-      potions = config_yaml["potions"] || {}
+      potions = config_yaml.potions
 
       Shared::MAKING_EFFECTS.to_h do |name|
         [name, potions[name] || 0]
@@ -39,7 +38,7 @@ module Actions
     end
 
     def config_yaml
-      @_config_yaml ||= YAML.load_file(Shared::FILE_NAME)
+      @_config_yaml ||= Config.new
     end
   end
 end
